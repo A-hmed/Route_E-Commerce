@@ -32,12 +32,10 @@ class BindingAdapters {
 
     }
 }
-@BindingAdapter("app:Error")
-fun setTextInputLayoutError(textInputLayout: TextInputLayout, error: String?) {
-    textInputLayout.error = error
-    textInputLayout.errorIconDrawable = null
+@BindingAdapter("error")
+fun setTextInputError(textInputLayout: TextInputLayout, errorMessage: String?){
+    textInputLayout.error = errorMessage
 }
-
 @BindingAdapter("app:clearFocusOnCondition")
 fun clearFocusOnCondition(view: View, condition: Boolean) {
     if (condition) {

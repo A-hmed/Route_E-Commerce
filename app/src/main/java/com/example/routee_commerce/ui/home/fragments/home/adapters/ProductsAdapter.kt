@@ -3,31 +3,43 @@ package com.example.routee_commerce.ui.home.fragments.home.adapters
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.example.routee_commerce.R
 import com.example.routee_commerce.databinding.ItemProductBinding
-import com.example.routee_commerce.model.Product
+import com.example.routee_commerce.domain.model.Cart
+import com.example.routee_commerce.domain.model.Product
 
-class ProductsAdapter(private var products: List<Product?>? = null) :
+class ProductsAdapter(private var products: List<Product>? = null, var cart: Cart? = null) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     inner class ViewHolder(val itemProductBinding: ItemProductBinding) :
         RecyclerView.ViewHolder(itemProductBinding.root) {
 
-        fun bind(product: Product?) {
+        fun bind(product: Product) {
             itemProductBinding.product = product
             itemProductBinding.executePendingBindings()
-            if (product?.priceAfterDiscount != null) {
-                itemProductBinding.productPrice.text = "EGP ${product?.priceAfterDiscount}"
+            if (product.priceAfterDiscount != null) {
+                itemProductBinding.productPrice.text = "EGP ${product.priceAfterDiscount}"
                 itemProductBinding.productOldPrice.isVisible = true
-                itemProductBinding.productOldPrice.text = "EGP ${product?.price}"
+                itemProductBinding.productOldPrice.text = "EGP ${product.price}"
                 itemProductBinding.productOldPrice.paintFlags =
                     itemProductBinding.productOldPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             } else {
-                itemProductBinding.productPrice.text = "EGP ${product?.price}"
+                itemProductBinding.productPrice.text = "EGP ${product.price}"
                 itemProductBinding.productOldPrice.isVisible = false
             }
-            itemProductBinding.reviewValueTv.text = "(${product?.ratingsAverage})"
+            itemProductBinding.reviewValueTv.text = "(${product.ratingsAverage})"
+            if (isInCart(product.id!!)) {
+                itemProductBinding.addToCartBtn.setImageDrawable(
+                    ContextCompat.getDrawable(itemProductBinding.root.context, R.drawable.ic_minus)
+                )
+            } else {
+                itemProductBinding.addToCartBtn.setImageDrawable(
+                    ContextCompat.getDrawable(itemProductBinding.root.context, R.drawable.ic_plus_circle)
+                )
+            }
         }
     }
 
@@ -48,19 +60,32 @@ class ProductsAdapter(private var products: List<Product?>? = null) :
         holder.bind(product)
         addProductToWishListClicked?.let {
             holder.itemProductBinding.addToWishlistBtn.setOnClickListener {
-                addProductToWishListClicked?.invoke(product!!)
+                addProductToWishListClicked?.invoke(product)
             }
         }
         addProductToCartClicked?.let {
             holder.itemProductBinding.addToCartBtn.setOnClickListener {
-                addProductToCartClicked?.invoke(product!!)
+                addProductToCartClicked?.invoke(product)
             }
         }
     }
 
-    fun bindProducts(products: List<Product?>) {
+    fun bindProducts(products: List<Product>) {
         this.products = products
         notifyDataSetChanged()
+    }
+
+    fun updateCart(cart: Cart) {
+        this.cart = cart
+        notifyDataSetChanged()
+    }
+
+    fun isInCart(productId: String): Boolean {
+        if (cart == null) return false
+        val product: Product? = cart!!.productsList.find {
+            it.id == productId
+        }
+        return product != null
     }
 
     var addProductToWishListClicked: ((product: Product) -> Unit)? = null

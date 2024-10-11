@@ -9,9 +9,16 @@ import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.routee_commerce.R
+import com.example.routee_commerce.data.utils.local_storage.LocalStorage
+import com.example.routee_commerce.ui.home.activity.MainActivity
 import com.example.routee_commerce.ui.userAuthentication.activity.UserAuthenticationActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class SplashActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class SplashActivity: AppCompatActivity() {
+
+    @Inject lateinit var localStorage: LocalStorage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -25,9 +32,15 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity() {
-        val intent = Intent(this, UserAuthenticationActivity::class.java)
-        startActivity(intent)
-        finish()
+        if(localStorage.getToken().isNullOrEmpty()){
+            val intent = Intent(this, UserAuthenticationActivity::class.java)
+            startActivity(intent)
+            finish()
+        }else {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun makeStatusBarTransparentAndIconsClear() {

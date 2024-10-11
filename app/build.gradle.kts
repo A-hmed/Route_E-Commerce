@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
-
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -62,6 +62,21 @@ dependencies {
     implementation(libs.glide)
     //picasso
     implementation(libs.picasso)
+    /// Coroutines
+    implementation(libs.kotlin.coroutines)
+    /// ViewModel
+    implementation(libs.android.viewmodel)
+    implementation(libs.livedata)
+    ///Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.retrofit.logging)
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    ////
+    implementation ("androidx.activity:activity-ktx:1.9.2")
+    implementation("androidx.fragment:fragment-ktx:1.8.3")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

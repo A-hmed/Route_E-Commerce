@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.routee_commerce.R
 import com.example.routee_commerce.databinding.ItemWishlistBinding
-import com.example.routee_commerce.model.Product
 import com.example.routee_commerce.model.WishListItem
 
 class WishListAdapter(var items:List<WishListItem?>?=null):RecyclerView.Adapter<WishListAdapter.ViewHolder>() {

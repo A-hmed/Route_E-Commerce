@@ -4,15 +4,30 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.routee_commerce.databinding.ItemCartBinding
-import com.example.routee_commerce.model.CartItem
+import com.example.routee_commerce.domain.model.Product
+import com.example.routee_commerce.utils.BindingAdapters
 
-class CartAdapter(private var cartItemsList: List<CartItem?>? = null) :
+class CartAdapter(private var cartItemsList: List<Product>? = null) :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
     inner class ViewHolder(val itemCartBinding: ItemCartBinding) :
         RecyclerView.ViewHolder(itemCartBinding.root) {
 
-        fun bind(cartItem: CartItem?) {
+        fun bind(cartItem: Product) {
+            BindingAdapters.bindImage(itemCartBinding.itemImage, cartItem.imageCover)
+            itemCartBinding.itemTitle.text = cartItem.title
+            itemCartBinding.productPrice.text = "${cartItem.price} EGP"
+            itemCartBinding.totalItemsInCart.text = "${cartItem.totalItemsInCart}"
+            itemCartBinding.colorName.text = cartItem.description
+            itemCartBinding.increaseQuantityButton.setOnClickListener {
+                onCartItemClick?.increase(cartItem)
+            }
+            itemCartBinding.decreaseQuantityButton.setOnClickListener {
+                onCartItemClick?.decrease(cartItem)
+            }
+            itemCartBinding.removeFromCartButton.setOnClickListener {
+                onCartItemClick?.remove(cartItem)
+            }
 
         }
     }
@@ -35,9 +50,16 @@ class CartAdapter(private var cartItemsList: List<CartItem?>? = null) :
 
     }
 
-    fun bindCartItemsList(cartItemsList: List<CartItem?>) {
+    fun bindCartItemsList(cartItemsList: List<Product>) {
         this.cartItemsList = cartItemsList
         notifyDataSetChanged()
+    }
+
+    var onCartItemClick: OnCartItemClick? = null
+    interface OnCartItemClick{
+        fun increase(product: Product)
+        fun decrease(product: Product)
+        fun remove(product: Product)
     }
 
 }

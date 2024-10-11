@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.routee_commerce.databinding.FragmentProductListBinding
-import com.example.routee_commerce.model.Product
+import com.example.routee_commerce.domain.model.Product
 import com.example.routee_commerce.ui.home.fragments.productList.adapter.ProductsAdapter
 
 

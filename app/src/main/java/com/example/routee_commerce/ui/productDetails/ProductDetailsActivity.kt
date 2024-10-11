@@ -7,7 +7,9 @@ import com.example.routee_commerce.R
 import com.example.routee_commerce.databinding.ActivityMainBinding
 import com.example.routee_commerce.databinding.ActivityProductDetailsBinding
 import com.example.routee_commerce.databinding.FragmentProfileBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductDetailsBinding
 

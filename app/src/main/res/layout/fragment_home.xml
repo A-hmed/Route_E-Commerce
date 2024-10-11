@@ -141,6 +141,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:orientation="horizontal"
                     app:duration="800"
+                    android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/category_name_tv">
 
 

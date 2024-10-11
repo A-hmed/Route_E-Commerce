@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.routee_commerce.databinding.ItemProductBinding
-import com.example.routee_commerce.model.Product
+import com.example.routee_commerce.domain.model.Product
 
 class ProductsAdapter(private var products: List<Product?>? = null) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
